@@ -1,0 +1,17 @@
+{
+	"name": "Test project",
+	"description": "test project",
+	"license": "BSD",
+	"require": {
+		"php": ">=5.5",
+		"laravel/framework": "5.*"
+	},
+	"autoload": {
+        "classmap": [
+            "database"
+        ],
+        "psr-4": {
+            "App\\": "app/"
+        }
+    }
+}
