@@ -25,11 +25,22 @@ class UsersController extends Controller
     }
     
     public function login(Request $request) {
-        if (!is_null($request)) {
+        try {
             $email = $request->input('email');
-            return $email;
+            $token = $request->input('token');
+            
+            $response = [
+                'error' => MobileApiException::ErrorNoneToArray(),
+                'data' => ['token' => $token, 'received' => $email]
+            ];
+            
+        } catch (MobileApiException $ex) {
+            $response = $ex->toArray();
+        } catch (Exception $ex) {
+            $response = MobileApiException::ServerErrorToArray($ex);
+        } finally {
+            return response()->json($response);
         }
-        return response()->json(['action' => 'login']);
     }
     
     public function logout() {
@@ -38,10 +49,7 @@ class UsersController extends Controller
     
     public function signUp(Request $request) {
         try {
-            
             $data = $this->getData($request);
-            
-            
             
             $response = [
                 'error' => MobileApiException::ErrorNoneToArray(),
@@ -72,11 +80,11 @@ class UsersController extends Controller
         $nickname = $request->input('nick');
         $userPic = $request->input('picture');
         
-        if (is_null($email)) {
+        if (!isset($email) || $email === NULL) {
             throw new MobileApiException("Email is required", MobileApiException::ERROR_NOT_DATA_RECEIVED);
         }
         
-        if (is_null($password)) {
+        if (!isset($password) || $password === NULL) {
             throw new MobileApiException("Password is required", MobileApiException::ERROR_NOT_DATA_RECEIVED);
         }
         
