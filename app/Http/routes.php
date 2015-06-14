@@ -14,3 +14,36 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::group(['prefix' => 'api/v1'], function() {
+//    Route::resource('user', 'UsersController');
+    
+    Route::get('user/login', [
+        'as' => 'login',
+        'uses' => 'UsersController@login'
+    ]);
+    
+    Route::post('user/login', [
+        'as' => 'login',
+        'uses' => 'UsersController@login'
+    ]);
+    
+    Route::post('user/signup', [
+        'as' => 'signup',
+        'uses' => 'UsersController@signup'
+    ]);
+    
+    Route::get('user/logout', [
+        'as' => 'logout',
+        'uses' => 'UsersController@logout'
+    ]);
+    
+    Route::put('user/edit', [
+        'uses' => 'UsersController@edit'
+    ]);
+    
+    Route::post('user/forgot_password', [
+        'uses' => 'UsersController@forgotPassword'
+    ]);
+    
+});

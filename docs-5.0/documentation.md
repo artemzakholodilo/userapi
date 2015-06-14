@@ -1,0 +1,58 @@
+git 4deba2bfca6636d5cdcede3f2068eff3b59c15ce
+
+---
+- Вступление
+    - [Версии фреймворка](/docs/{{version}}/releases)
+    - [Руководство по обновлению](/docs/{{version}}/upgrade)
+    - [Участие в разработке](/docs/{{version}}/contributions)
+- Установка
+    - [Установка](/docs/{{version}}/installation)
+    - [Настройка](/docs/{{version}}/configuration)
+    - [Homestead](/docs/{{version}}/homestead)
+- Основы
+    - [Routing](/docs/{{version}}/routing)
+    - [Middleware](/docs/{{version}}/middleware)
+    - [Controllers](/docs/{{version}}/controllers)
+    - [Requests](/docs/{{version}}/requests)
+    - [Responses](/docs/{{version}}/responses)
+    - [Views](/docs/{{version}}/views)
+- Архитектура фреймворка
+    - [Service Providers](/docs/{{version}}/providers)
+    - [Service Container](/docs/{{version}}/container)
+    - [Контракты](/docs/{{version}}/contracts)
+    - [Фасады](/docs/{{version}}/facades)
+    - [Жизненный цикл запроса](/docs/{{version}}/lifecycle)
+    - [Структура приложения](/docs/{{version}}/structure)    
+- Сервисы
+    - [Authentication](/docs/{{version}}/authentication)
+    - [Billing](/docs/{{version}}/billing)
+    - [Cache](/docs/{{version}}/cache)
+    - [Collections](/docs/{{version}}/collections)
+    - [Command Bus](/docs/{{version}}/bus)
+    - [Расширение ядра](/docs/{{version}}/extending)
+    - [Elixir](/docs/{{version}}/elixir)
+    - [Encryption](/docs/{{version}}/encryption)
+    - [Ошибки и логирование](/docs/{{version}}/errors)
+    - [Events](/docs/{{version}}/events)
+    - [Filesystem / Cloud Storage](/docs/{{version}}/filesystem)
+    - [Hashing](/docs/{{version}}/hashing)
+    - [Helpers](/docs/{{version}}/helpers)
+    - [Локализация](/docs/{{version}}/localization)
+    - [Mail](/docs/{{version}}/mail)
+    - [Разработка пакетов](/docs/{{version}}/packages)
+    - [Pagination](/docs/{{version}}/pagination)
+    - [Queues](/docs/{{version}}/queues)
+    - [Session](/docs/{{version}}/session)
+    - [Шаблонизатор Blade](/docs/{{version}}/templates)
+    - [Тестирование](/docs/{{version}}/testing)
+    - [Validation](/docs/{{version}}/validation)
+- База данных
+    - [Basic Usage](/docs/{{version}}/database)
+    - [Query Builder](/docs/{{version}}/queries)
+    - [Eloquent ORM](/docs/{{version}}/eloquent)
+    - [Schema Builder](/docs/{{version}}/schema)
+    - [Migrations & Seeding](/docs/{{version}}/migrations)
+    - [Redis](/docs/{{version}}/redis)
+- Artisan CLI
+    - [Описание](/docs/{{version}}/artisan)
+    - [Разработка](/docs/{{version}}/commands)
