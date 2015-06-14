@@ -11,27 +11,42 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\MobileApiException;
 use Illuminate\Http\Request;
+use App\User;
+//use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Description of UsersController
  *
  * @author Artem
  */
-class UsersController extends Controller
+class UsersController extends BaseController
 {
+    protected $testEmail = 'admin@example.com';
+    protected $testPassword = '1111';
     
     public function index() {
-        return response()->json(['asd' => 'qwe']);
+        if ($user = Auth::user()) {
+            return response()->json(['user' => $user]);
+        }
+        else {
+            $this->createUser();
+            $user = Auth::attempt(['email' => $this->testEmail, 'password' => $this->testPassword]);
+            return response()->json(['user' => $user]);
+        }
+        
     }
     
     public function login(Request $request) {
         try {
             $email = $request->input('email');
-            $token = $request->input('token');
+            $password = $request->input('password');
+            
+            $user = Auth::attempt(['email' => $email, 'password' => $password], true); 
             
             $response = [
                 'error' => MobileApiException::ErrorNoneToArray(),
-                'data' => ['token' => $token, 'received' => $email]
+                'result' => 'success'
             ];
             
         } catch (MobileApiException $ex) {
@@ -44,16 +59,30 @@ class UsersController extends Controller
     }
     
     public function logout() {
-        return response()->json(['action' => 'logout']);
+        try {
+            $this->checkAccess();
+            
+            Auth::logout();
+            
+            $response = MobileApiException::ErrorNoneToArray();
+        } catch (MobileApiException $ex) {
+            $response = $ex->toArray();
+        } catch (\Exception $ex) {
+            $response = MobileApiException::ServerErrorToArray($ex);
+        } finally {
+            return response()->json($response); 
+        }
     }
     
     public function signUp(Request $request) {
         try {
-            $data = $this->getData($request);
+            $user = $this->getData($request);
+            
+            $this->createUser($user);
             
             $response = [
                 'error' => MobileApiException::ErrorNoneToArray(),
-                'data' => ['token', 'received' => $data]
+                'result' => 'success'
             ];
             
         } catch (MobileApiException $ex) {
@@ -66,29 +95,34 @@ class UsersController extends Controller
     }
     
     public function edit($userId) {
-        return response()->json(['action' => 'edit', 'id' => $userId]);
+        try {
+            $user = $this->checkAccess();
+            
+            
+        } catch (MobileApiException $ex) {
+            $response = $ex->toArray();
+        } catch (Exception $ex) {
+            $response = MobileApiException::ServerErrorToArray($ex);
+        } finally {
+            return response()->json(['action' => 'edit', 'id' => $userId]);
+        }
     }
     
-    protected function getData($request) {
-        if (!$request instanceof Request) {
-            throw new MobileApiException("Bad request data", MobileApiException::ERROR_SERVER);
+    protected function createUser(array $user = []) {
+        if (empty($user)) {
+            return User::create([
+                'name' => 'admin',
+                'email' => $this->testEmail,
+                'password' => bcrypt($this->testPassword),
+            ]);
         }
-        
-        $email = $request->input('email');
-        $password = $request->input('password');
-        
-        $nickname = $request->input('nick');
-        $userPic = $request->input('picture');
-        
-        if (!isset($email) || $email === NULL) {
-            throw new MobileApiException("Email is required", MobileApiException::ERROR_NOT_DATA_RECEIVED);
+        else {
+            return User::create([
+                'name' => $user['nickname'],
+                'email' => $user['email'],
+                'password' => bcrypt($user['password'])
+            ]);
         }
-        
-        if (!isset($password) || $password === NULL) {
-            throw new MobileApiException("Password is required", MobileApiException::ERROR_NOT_DATA_RECEIVED);
-        }
-        
-        return compact('email', 'password', 'nickname', 'userPic');
     }
     
 }

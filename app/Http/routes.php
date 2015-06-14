@@ -18,6 +18,10 @@ Route::get('/', function () {
 Route::group(['prefix' => 'api/v1'], function() {
 //    Route::resource('user', 'UsersController');
     
+    Route::get('user', [
+        'uses' => 'UsersController@index'
+    ]);
+    
     Route::get('user/login', [
         'as' => 'login',
         'uses' => 'UsersController@login'
