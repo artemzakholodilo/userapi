@@ -18,14 +18,14 @@ Route::get('/', function () {
 Route::group(['prefix' => 'api/v1'], function() {
 //    Route::resource('user', 'UsersController');
     
-    Route::get('user', [
-        'uses' => 'UsersController@index'
-    ]);
+//    Route::get('user', [
+//        'uses' => 'UsersController@index'
+//    ]);
     
-    Route::get('user/login', [
-        'as' => 'login',
-        'uses' => 'UsersController@login'
-    ]);
+//    Route::get('user/login', [
+//        'as' => 'login',
+//        'uses' => 'UsersController@login'
+//    ]);
     
     Route::post('user/login', [
         'as' => 'login',
@@ -34,7 +34,8 @@ Route::group(['prefix' => 'api/v1'], function() {
     
     Route::post('user/signup', [
         'as' => 'signup',
-        'uses' => 'UsersController@signup'
+        'uses' => 'UsersController@signup',
+        'middleware' => 'userPic'
     ]);
     
     Route::get('user/logout', [

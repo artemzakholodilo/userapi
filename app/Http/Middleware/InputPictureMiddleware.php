@@ -15,8 +15,8 @@ class InputPictureMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (!$_FILES['picture']) {
-            throw new \App\Models\MobileApiException("Invalid input type", 
+        if (!Request::hasFile('userPic')) {
+            throw new \App\Models\MobileApiException("User picture required", 
                     \App\Models\MobileApiException::ERROR_INCORRECT_DATA);
         }
         

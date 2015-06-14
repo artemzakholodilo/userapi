@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Models\MobileApiException;
 use Illuminate\Http\Request;
 use App\User;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 //use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 
@@ -42,11 +43,14 @@ class UsersController extends BaseController
             $email = $request->input('email');
             $password = $request->input('password');
             
-            $user = Auth::attempt(['email' => $email, 'password' => $password], true); 
+            $user = Auth::attempt(['email' => $email, 'password' => $password], true);
+            
+            $accessToken = User::getAccessToken($user);
             
             $response = [
                 'error' => MobileApiException::ErrorNoneToArray(),
-                'result' => 'success'
+                'result' => 'success',
+                'token' => $accessToken
             ];
             
         } catch (MobileApiException $ex) {
@@ -80,9 +84,12 @@ class UsersController extends BaseController
             
             $this->createUser($user);
             
+            $accessToken = User::getAccessToken($user);
+            
             $response = [
                 'error' => MobileApiException::ErrorNoneToArray(),
-                'result' => 'success'
+                'result' => 'success',
+                'token' => $accessToken
             ];
             
         } catch (MobileApiException $ex) {
@@ -94,11 +101,26 @@ class UsersController extends BaseController
         }
     }
     
-    public function edit($userId) {
+    public function edit(Request $request, $userId) {
         try {
-            $user = $this->checkAccess();
+//            $user = $this->checkAccess();
+            $user = User::findOrFail($userId);
+            $data = $this->getData($request);
             
+            $user->name = !is_null($data['nickname']) ? $data['nickname'] : $user->name;
+            $user->password = !is_null($data['password']) ? bcrypt($data['nickname']) : $user->password;
+            $user->email = !is_null($data['email']) ? $data['email'] : $user->email;
+            $user->name = !is_null($data['nickname']) ? $data['nickname'] : $user->name;
+            $user->userpic = !is_null($data['userPic']) ? User::savePic($data['userPic']) : $user->userpic;
             
+            $user->save();
+            
+            $response = [
+                'error' => MobileApiException::ErrorNoneToArray(),
+                'result' => 'success'
+            ];
+        } catch (ModelNotFoundException $ex) {
+            $response = new MobileApiException($ex->getMessage(), MobileApiException::ERROR_SERVER);
         } catch (MobileApiException $ex) {
             $response = $ex->toArray();
         } catch (Exception $ex) {

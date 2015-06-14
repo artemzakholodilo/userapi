@@ -18,6 +18,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      * @var string
      */
     protected $table = 'users';
+    
+    protected static $accessToken = null;
 
     /**
      * The attributes that are mass assignable.
@@ -32,4 +34,21 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      * @var array
      */
     protected $hidden = ['password', 'remember_token'];
+    
+    public static function getAccessToken(User $user) {
+        if (is_null(static::$accessToken)) {
+            static::$accessToken = static::hashPassword($user->password);
+        }
+        
+        return static::$accessToken;
+    }
+    
+    private static function hashPassword($password) {
+        $salt = '$1$aVLP4uD$JNhCYkASX63unL4';
+        return crypt($password, $salt);
+    }
+    
+    public static function saveUserImage($photo) {
+        return $photo->move('');
+    }
 }

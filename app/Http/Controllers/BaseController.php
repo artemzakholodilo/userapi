@@ -37,7 +37,13 @@ class BaseController extends Controller
         $password = $request->input('password');
         
         $nickname = $request->input('nick');
-        $userPic = $request->input('picture');
+        $userPic = Request::file('userPic');
+        
+        // TODO : delete var dump
+        if (!is_null($userPic)) {
+            var_dump($userPic);
+            exit;
+        }
         
         if (!isset($email) || $email === NULL) {
             throw new MobileApiException("Email is required", MobileApiException::ERROR_NOT_DATA_RECEIVED);
