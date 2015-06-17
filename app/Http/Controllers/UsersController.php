@@ -49,7 +49,7 @@ class UsersController extends BaseController
             
             $response = [
                 'error' => MobileApiException::ErrorNoneToArray(),
-                'result' => 'success',
+//                'result' => 'success',
                 'token' => $accessToken
             ];
             
@@ -88,7 +88,7 @@ class UsersController extends BaseController
             
             $response = [
                 'error' => MobileApiException::ErrorNoneToArray(),
-                'result' => 'success',
+//                'result' => 'success',
                 'token' => $accessToken
             ];
             
@@ -103,7 +103,7 @@ class UsersController extends BaseController
     
     public function edit(Request $request, $userId) {
         try {
-//            $user = $this->checkAccess();
+            $this->checkAccess();
             $user = User::findOrFail($userId);
             $data = $this->getData($request);
             
@@ -117,7 +117,7 @@ class UsersController extends BaseController
             
             $response = [
                 'error' => MobileApiException::ErrorNoneToArray(),
-                'result' => 'success'
+//                'result' => 'success'
             ];
         } catch (ModelNotFoundException $ex) {
             $response = new MobileApiException($ex->getMessage(), MobileApiException::ERROR_SERVER);

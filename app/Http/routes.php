@@ -43,7 +43,7 @@ Route::group(['prefix' => 'api/v1'], function() {
         'uses' => 'UsersController@logout'
     ]);
     
-    Route::put('user/edit', [
+    Route::put('user/edit/{id}', [
         'uses' => 'UsersController@edit'
     ]);
     
