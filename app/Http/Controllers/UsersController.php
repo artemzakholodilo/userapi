@@ -101,10 +101,10 @@ class UsersController extends BaseController
         }
     }
     
-    public function edit(Request $request, $userId) {
+    public function edit(Request $request) {
         try {
-            $this->checkAccess();
-            $user = User::findOrFail($userId);
+            $user = $this->checkAccess();
+//            $user = User::findOrFail($userId);
             $data = $this->getData($request);
             
             $user->name = !is_null($data['nickname']) ? $data['nickname'] : $user->name;

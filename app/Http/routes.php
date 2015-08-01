@@ -15,17 +15,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::post('/ex', function (){
+    return response()->json(['ex' => true]);
+});
+
 Route::group(['prefix' => 'api/v1'], function() {
-//    Route::resource('user', 'UsersController');
-    
-//    Route::get('user', [
-//        'uses' => 'UsersController@index'
-//    ]);
-    
-//    Route::get('user/login', [
-//        'as' => 'login',
-//        'uses' => 'UsersController@login'
-//    ]);
     
     Route::post('user/login', [
         'as' => 'login',
@@ -43,7 +37,7 @@ Route::group(['prefix' => 'api/v1'], function() {
         'uses' => 'UsersController@logout'
     ]);
     
-    Route::put('user/edit/{id}', [
+    Route::put('user/edit', [
         'uses' => 'UsersController@edit'
     ]);
     
